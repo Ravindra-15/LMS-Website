@@ -56,7 +56,7 @@ const CourseTable = () => {
     const {data, isLoading} = useGetCreatorCourseQuery();
 
     if(isLoading) return <h1>Loading....</h1>
-    console.log("Murga", data);
+    
   return (
     <div>
         <Button onClick = {() => navigate(`create`)}> Create a New Course</Button>

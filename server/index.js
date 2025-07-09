@@ -4,6 +4,7 @@ import connectDB from "./database/db.js";
 import userRoute from "./routes/user.route.js";
 import courseRoute from "./routes/course.route.js";
 import cookieParser from "cookie-parser";
+import mediaRoute from "./routes/media.route.js"
 import cors from "cors";
 
 //call dotenv
@@ -24,8 +25,10 @@ app.use(cors({
 }));
 
 //api
+app.use("/api/v1/media", mediaRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/course", courseRoute);
+
 
 
 //port

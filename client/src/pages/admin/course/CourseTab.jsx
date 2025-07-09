@@ -41,18 +41,19 @@ const CourseTab = () => {
   const params = useParams();
   const courseId = params.courseId;
   const { data: courseByIdData, isLoading: courseByIdLoading } =
-    useGetCourseByIdQuery(courseId);
+    useGetCourseByIdQuery(courseId); 
 
   useEffect(() => {
-  if (courseByIdData) {
-    const course = courseByIdData.course; // Now matches backend response
+  if (courseByIdData?.course) {
+    const course = courseByIdData?.course; // Now matches backend response
+     console.log("Fetched course:", course);
     setInput({
       courseTitle: course.courseTitle || "",
       subTitle: course.subTitle || "",
       description: course.description || "",
       category: course.category || "",
       courseLevel: course.courseLevel || "Beginner",
-      coursePrice: course.coursePrice || 0,
+      coursePrice: course.coursePrice?.toString() || "",
       courseThumbnail: course.courseThumbnail || "",
     });
     
@@ -114,7 +115,10 @@ const CourseTab = () => {
     }
   }, [isSuccess, error]);
 
-    if(courseByIdLoading) return <h1>Loading...</h1>
+     
+  if (courseByIdLoading) {
+    return <div className="p-4">Loading course...</div>; // or use a spinner component
+  }
 
   const isPublished = false;
 
@@ -173,7 +177,7 @@ const CourseTab = () => {
         <div className="flex flex-wrap gap-5">
           <div className="flex flex-col w-[200px] space-y-2">
             <Label>Category</Label>
-            <Select onValueChange={selectCategory}>
+            <Select onValueChange={selectCategory}  defaultValue={input.category}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -202,7 +206,7 @@ const CourseTab = () => {
 
           <div className="flex flex-col w-[200px] space-y-2">
             <Label>Course Level</Label>
-            <Select onValueChange={selectCourseLevel}>
+            <Select onValueChange={selectCourseLevel} defaultValue={input.courseLevel}>
               <SelectTrigger>
                 <SelectValue placeholder="Select course level" />
               </SelectTrigger>
@@ -266,5 +270,5 @@ const CourseTab = () => {
     </Card>
   );
 };
-
+ 
 export default CourseTab;

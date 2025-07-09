@@ -1,3 +1,4 @@
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const COURSE_API = "http://localhost:8080/api/v1/course";
@@ -31,10 +32,8 @@ export const courseApi = createApi({
                 url: `/${courseId}`,
                 method: "PUT",
                 body: formData,
-                headers: {
-                    // No Content-Type! Let browser set it with boundary
-                },
             }),
+            invalidatesTags: ['Refetch_Creator_Course']
         }),
         getCourseById: builder.query({
             query: (courseId) => ({
@@ -42,7 +41,20 @@ export const courseApi = createApi({
                 method: "GET",
             }),
         }),
+        createLecture: builder.mutation({
+            query: ({ lectureTitle, courseId }) => ({
+                url: `/${courseId}/lecture`,
+                method: "POST",
+                body: { lectureTitle },
+            }),
+        }),
+        getCourseLecture: builder.query({
+            query: (courseId) => ({
+                url: `/${courseId}/lecture`,
+                method: "GET",
+            }),
+        }),
     }),
 });
 
-export const { useCreateCourseMutation, useGetCreatorCourseQuery, useEditCourseMutation, useGetCourseByIdQuery } = courseApi;
+export const { useCreateCourseMutation, useGetCreatorCourseQuery, useEditCourseMutation, useGetCourseByIdQuery, useCreateLectureMutation, useGetCourseLectureQuery} = courseApi;
